@@ -20,6 +20,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 //Tell Spring to automatically inject any dependencies that are marked in
 //our classes with @Autowired
 @EnableAutoConfiguration
+//Tell Spring to automatically create a JPA implementation of our
+//VideoRepository
+//@EnableJpaRepositories(basePackageClasses = VideoRepository.class)
 // Tell Spring to turn on WebMVC (e.g., it should enable the DispatcherServlet
 // so that requests can be routed to our Controllers)
 @EnableWebMvc
