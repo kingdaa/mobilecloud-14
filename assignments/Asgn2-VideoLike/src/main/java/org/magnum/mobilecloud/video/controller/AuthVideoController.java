@@ -27,11 +27,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import retrofit.http.Body;
+import retrofit.http.GET;
+import retrofit.http.POST;
+import retrofit.http.Path;
+import retrofit.http.Query;
 
 import com.google.common.collect.Lists;
 
@@ -50,12 +58,38 @@ public class AuthVideoController {
 	@Autowired
 	private VideoRepository videos;
 
+	// @GET(VIDEO_SVC_PATH)
+	// public Collection<Video> getVideoList();
+	//
+	// @GET(VIDEO_SVC_PATH + "/{id}")
+	// public Video getVideoById(@Path("id") long id);
+	//
+	// @POST(VIDEO_SVC_PATH)
+	// public Video addVideo(@Body Video v);
+	//
+	// @POST(VIDEO_SVC_PATH + "/{id}/like")
+	// public Void likeVideo(@Path("id") long id);
+	//
+	// @POST(VIDEO_SVC_PATH + "/{id}/unlike")
+	// public Void unlikeVideo(@Path("id") long id);
+	//
+	// @GET(VIDEO_TITLE_SEARCH_PATH)
+	// public Collection<Video> findByTitle(@Query(TITLE_PARAMETER) String
+	// title);
+	//
+	// @GET(VIDEO_DURATION_SEARCH_PATH)
+	// public Collection<Video>
+	// findByDurationLessThan(@Query(DURATION_PARAMETER) long duration);
+	//
+	// @GET(VIDEO_SVC_PATH + "/{id}/likedby")
+	// public Collection<String> getUsersWhoLikedVideo(@Path("id") long id)
+
 	@RequestMapping(value = VideoSvcApi.VIDEO_SVC_PATH, method = RequestMethod.POST)
 	public @ResponseBody
-	boolean addVideo(@RequestBody Video v) {
+	Video addVideo(@RequestBody Video v) {
 		v.setLikes(0);
 		videos.save(v);
-		return true;
+		return v;
 	}
 
 	@RequestMapping(value = VideoSvcApi.VIDEO_SVC_PATH, method = RequestMethod.GET)
@@ -66,10 +100,32 @@ public class AuthVideoController {
 
 	@RequestMapping(value = VideoSvcApi.VIDEO_SVC_PATH + "/{id}", method = RequestMethod.GET)
 	public @ResponseBody
-	ResponseEntity<Video> findById(@RequestParam("id") Long id) {
+	ResponseEntity<Video> findById(@PathVariable("id") long id) {
 		Video ret = videos.findOne(id);
 		return ret != null ? new ResponseEntity<Video>(ret, HttpStatus.OK)
 				: new ResponseEntity<Video>(HttpStatus.NOT_FOUND);
 	}
 
+	@RequestMapping(value = VideoSvcApi.VIDEO_SVC_PATH + "/{id}/like", method = RequestMethod.POST)
+	public ResponseEntity<String> likeVideo(@PathVariable("id") long id) {
+		//TODO
+		return null;
+	}
+
+	@RequestMapping(value = VideoSvcApi.VIDEO_SVC_PATH + "/{id}/unlike", method = RequestMethod.POST)
+	public ResponseEntity<String> unlikeVideo(@PathVariable("id") long id) {
+		//TODO
+		return null;
+	}
+
+	@RequestMapping(value = VideoSvcApi.VIDEO_SVC_PATH + "/{id}/likeby", method = RequestMethod.GET)
+	public ResponseEntity<Collection<String>> getUsersWhoLikedVideo(
+			@PathVariable("id") long id) {
+		Video res = videos.findOne(id);
+		if (res == null)
+			return new ResponseEntity<Collection<String>>(HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<Collection<String>>(
+					res.getLikedUserNames(), HttpStatus.NOT_FOUND);
+	}
 }
