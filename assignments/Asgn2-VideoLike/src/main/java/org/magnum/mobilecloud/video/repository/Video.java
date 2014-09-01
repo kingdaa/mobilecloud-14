@@ -16,9 +16,10 @@ import com.google.common.base.Objects;
  * 
  * You probably need to, at a minimum, add some annotations to this class.
  * 
- * You are free to add annotations, members, and methods to this class. However, you probably should not change the existing methods or member
- * variables. If you do change them, you need to make sure that they are serialized into JSON in a way that matches what is expected by the
- * auto-grader.
+ * You are free to add annotations, members, and methods to this class. However,
+ * you probably should not change the existing methods or member variables. If
+ * you do change them, you need to make sure that they are serialized into JSON
+ * in a way that matches what is expected by the auto-grader.
  * 
  * @author mitchell
  */
@@ -34,8 +35,7 @@ public class Video {
 	private String url;
 	private long duration;
 	private long likes;
-	@ElementCollection
-	private Set<String> likedUserNames = new HashSet<String>();
+	@ElementCollection private Set<String> likedUserNames = new HashSet<String>();
 
 	public Video() {
 	}
@@ -97,7 +97,8 @@ public class Video {
 	}
 
 	/**
-	 * Two Videos will generate the same hashcode if they have exactly the same values for their name, url, and duration.
+	 * Two Videos will generate the same hashcode if they have exactly the same
+	 * values for their name, url, and duration.
 	 * 
 	 */
 	@Override
@@ -107,7 +108,8 @@ public class Video {
 	}
 
 	/**
-	 * Two Videos are considered equal if they have exactly the same values for their name, url, and duration.
+	 * Two Videos are considered equal if they have exactly the same values for
+	 * their name, url, and duration.
 	 * 
 	 */
 	@Override
